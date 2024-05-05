@@ -1,0 +1,171 @@
+# Sweet Store
+
+class Order:
+    
+    def __init__(self):
+        self.menu = {
+            "Donut" : 10000,
+            "Sugar Coat Bread" : 10000,
+            "Red Velvet" : 10000,
+            "Oreo Sandwich" : 15000,
+            "Mango Coat Cake" : 20000,
+            "Birtday cake" : 125000,
+            "Plain Bread" : 25000
+            }
+        self.waitingline = []
+        self.orderlist = []
+        self.totalprice = 0
+        self.ordernumber = 0
+        
+    def showmenu(self):
+        No = 1
+        for menu in self.menu:
+            print(f"{No}. {menu} : {self.menu[menu]}")
+            No += 1
+
+    def addorder(self):
+        self.showmenu()
+        
+        name = self.ValueErrorHandling()
+        qty = self.ValueErrorHandling()
+        
+        if len(self.menu) >= name and qty > 0:
+            No = 1
+            for menu in self.menu:
+                if name == No:
+                    print(f"{No}. {menu} : {self.menu[menu]} | Qty : {qty}")
+                    price = self.menu[menu] * qty
+                    self.orderlist.append((menu, qty, price))
+                    self.totalprice += price
+                    print(f"{menu} is added to order")
+                    No += 1
+                else:
+                    No += 1
+        else:
+            print("Pilihan tidak ada")
+
+    def cancelorder(self):
+        if len(self.orderlist) >= 1:
+            self.showorderlist()
+            cancel = self.ValueErrorHandling()
+            
+            if len(self.orderlist) >= cancel:
+                for order in range (len(self.orderlist)):
+                    if cancel == order+1:
+                        self.ordelist.pop(cancel-1)
+            else:
+                print("Pilihan tidak ada")
+        else:
+            print("Tidak ada order untuk dicancel")
+    
+    def purchaseorder(self):
+        self.ordernumber += 1
+        if len(self.orderlist) >= 1:
+            self.showorderlist()
+            print(f"Total price : {self.totalprice}")
+            
+            money = self.ValueErrorHandling()
+            
+            if money >= self.totalprice:
+                change = money - self.totalprice
+                print("\nSTRUK SWEET STORE")
+                print(f"Number: {self.ordernumber}")
+                self.showorderlist()
+                print(f"Total : {self.totalprice}")
+                print(f"Change  : {change}")
+                
+                self.waitingline.append((self.ordernumber, self.orderlist))
+                
+                # reset
+                self.totalprice = 0
+                self.orderlist = []
+                
+            else:
+                print("Uang tidak cukup")
+        else:
+            print("Tidak ada order untuk dibeli")
+    
+ 
+    def completeorder(self):
+        if len(self.waitingline) >= 1:
+            for wait in self.waitingline:
+                print(f"{wait[0]}")
+                for i in range (len(wait[1])):
+                    print(f" | {wait[1][i][0]} {wait[1][i][1]} {wait[1][i][2]}")
+            
+            purchase = self.ValueErrorHandling()
+            
+            for wait in self.waitingline:
+                if purchase == wait[0]:
+                    print(f"{wait[0]}")
+                    for i in range (len(wait[1])):
+                        print(f" | {wait[1][i][0]} {wait[1][i][1]} {wait[1][i][2]}")
+                    self.waitingline.pop(purchase-1)
+                else:
+                    print("Nomor pesanan tidak ada")
+           
+        else:
+            print("Tidak ada order untuk dibeli")
+    
+
+    def showorderlist(self):
+        if len(self.orderlist) >= 1:
+            No = 1
+            for order in self.orderlist:
+                print(f"{No}. {order[0]} | {order[1]} | {order[2]} \n")
+                No += 1
+        else:
+            print("Tidak ada order")
+    
+    def ValueErrorHandling(self):
+        try:
+            x = int(input("Masukkan pencarian : "))
+            return x
+        except ValueError:
+            print("Input harus berupa numeric")
+            self.ValueErrorHandling()
+    
+    
+        
+cashier = Order()
+while True:
+    print("""
+          1. Add Order
+          2. Cancel Order
+          3. Purchase Order
+          4. Complete Order
+          0. Exit
+          """)
+    choice = input("Pilih menu : ")
+    
+    if choice == "1":
+        cashier.addorder()
+    
+    elif choice == "2":
+        cashier.cancelorder()
+    
+    elif choice == "3":
+        cashier.purchaseorder()
+    
+    elif choice == "4":
+        cashier.completeorder()
+    
+    elif choice == "0":
+        print("Sweet Store")
+        break
+    
+    else:
+        print("Pilihan tidak ada")
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
